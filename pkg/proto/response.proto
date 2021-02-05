@@ -1,0 +1,17 @@
+syntax = "proto3";
+package proto;
+
+option go_package = "gruler/pkg/proto";
+
+message Response {
+  int64 executionTime = 1;
+  repeated Action actions = 2;
+}
+
+message Action {
+  string actionType = 1;
+  string ruleId = 2;
+  int64 status = 3;
+  string headerName = 4;
+  string headerValue = 5;
+}

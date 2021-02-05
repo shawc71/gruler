@@ -1,0 +1,12 @@
+syntax = "proto3";
+package proto;
+
+option go_package = "gruler/pkg/proto";
+message Request{
+  HttpRequest httpRequest = 1;
+}
+
+message HttpRequest{
+  string method = 1;
+  map<string, string> headers = 2;
+}

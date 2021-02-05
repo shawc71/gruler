@@ -1,0 +1,36 @@
+{
+  "rules": [
+    {
+      "rule_id": "test-eq-cond",
+      "condition": {"eq": {"http.request.method": "GET"}},
+      "action": {"type": "setHeader", "headerName": "foo", "headerValue": "bar"}
+    },
+    {
+      "rule_id": "test-and-cond",
+      "condition": {
+        "and": [
+          {"eq": {"http.request.method": "GET"}},
+          {"eq": {"http.request.header.host": "example.com"}}
+        ]
+      },
+      "action": {"type": "setHeader", "headerName": "hi", "headerValue": "there"}
+    },
+    {
+      "rule_id": "test-or-cond",
+      "condition": {
+        "or": [
+          {"eq": {"http.request.method": "GET"}},
+          {"eq": {"http.request.header.host": "foo.com"}}
+        ]
+      },
+      "action": {"type": "setHeader", "headerName": "or", "headerValue": "condition"}
+    },
+    {
+      "rule_id": "test-not-cond",
+      "condition": {
+        "not": {"eq": {"http.request.method": "GET"}}
+      },
+      "action": {"type": "setHeader", "headerName": "not", "headerValue": "condition"}
+    }
+  ]
+}
