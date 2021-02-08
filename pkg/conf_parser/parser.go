@@ -55,20 +55,35 @@ func parseAction(actionJson map[string]interface{}) (ast.Action, error) {
 	if _, exists := actionJson["type"]; !exists {
 		return ast.Action{}, fmt.Errorf("'type' is required on action %v", actionJson)
 	}
-	action := ast.Action{}
-	action.ActionType = actionJson["type"].(string)
-	if action.ActionType == "setHeader" {
-		if _, exists := actionJson["headerName"]; !exists {
-			return ast.Action{}, fmt.Errorf("'headerName' is required on action %v", actionJson)
-		}
-		if _, exists := actionJson["headerValue"]; !exists {
-			return ast.Action{}, fmt.Errorf("'headerValue' is required on action %v", actionJson)
-		}
-		action.HeaderName = actionJson["headerName"].(string)
-		action.HeaderVal = actionJson["headerValue"].(string)
-		return action, nil
+	actionType := actionJson["type"].(string)
+	if actionType == "setHeader" {
+		return parseSetHeaderAction(actionJson)
+	}
+	if actionType  == "block" {
+		return parseBlockAction(actionJson)
 	}
 	return ast.Action{}, fmt.Errorf("invalid action type '%v'", actionJson)
+}
+
+func parseBlockAction(actionJson map[string]interface{}) (ast.Action, error) {
+	action := ast.Action{}
+	action.ActionType = "block"
+	action.Status = int64(actionJson["statusCode"].(float64))
+	return action, nil
+}
+
+func parseSetHeaderAction(actionJson map[string]interface{}) (ast.Action, error) {
+	action := ast.Action{}
+	action.ActionType = "setHeader"
+	if _, exists := actionJson["headerName"]; !exists {
+		return ast.Action{}, fmt.Errorf("'headerName' is required on action %v", actionJson)
+	}
+	if _, exists := actionJson["headerValue"]; !exists {
+		return ast.Action{}, fmt.Errorf("'headerValue' is required on action %v", actionJson)
+	}
+	action.HeaderName = actionJson["headerName"].(string)
+	action.HeaderVal = actionJson["headerValue"].(string)
+	return action, nil
 }
 
 func parseCondition(conditionJson map[string]interface{}) (ast.Condition, error) {
