@@ -6,6 +6,7 @@ import (
 	"gruler/pkg/conf_parser"
 	"gruler/pkg/proto"
 	"os"
+	"time"
 )
 
 func main() {
@@ -26,9 +27,15 @@ func main() {
 	engine := &ast.Engine{
 		Program:  prog,
 	}
+	startTime := time.Now()
 	response, err := engine.Execute(httpRequest)
+	delta := time.Since(startTime).Nanoseconds()
 	if err != nil {
 		fmt.Print(err)
 	}
-	fmt.Printf("%+v", response)
+	resp := proto.Response{
+		ExecutionTime: delta,
+		Actions:       response,
+	}
+	fmt.Printf("%+v", resp)
 }
