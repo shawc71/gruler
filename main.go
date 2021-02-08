@@ -12,7 +12,8 @@ func main() {
 	headers := make(map[string]string)
 	headers["host"] = "example.com"
 	httpRequest := &proto.HttpRequest{
-		Method:  "GET",
+		Method:  "PUT",
+		ClientIp: "127.0.0.1",
 		Headers: headers,
 	}
 	_ = proto.Request{HttpRequest: httpRequest}

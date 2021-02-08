@@ -28,9 +28,16 @@
     {
       "rule_id": "test-not-cond",
       "condition": {
-        "not": {"eq": {"http.request.method": "POST"}}
+        "not": {"eq": {"http.request.method": "PUT"}}
       },
       "action": {"type": "block", "statusCode": 503}
+    },
+    {
+      "rule_id": "test-client-ip",
+      "condition": {
+        "eq": {"http.request.clientIp": "127.0.0.1"}
+      },
+      "action": {"type": "block", "statusCode": 429}
     }
   ]
 }

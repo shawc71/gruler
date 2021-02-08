@@ -25,6 +25,8 @@ func (e *EqCondition) True(request *proto.HttpRequest) (bool, error) {
 			return false, fmt.Errorf("invalid target %s", e.Left)
 		}
 		return request.Headers[arg[3]] == e.Right, nil
+	} else if arg[2] == "clientIp" {
+		return request.ClientIp == e.Right, nil
 	}
 	return false, fmt.Errorf("invalid target %s", e.Left)
 }
