@@ -2,6 +2,7 @@ package ast
 
 import (
 	"gruler/pkg/proto"
+	"log"
 	"sync"
 )
 
@@ -16,6 +17,7 @@ func NewEngine(program *Program) *Engine {
 		program: program,
 	}
 }
+
 func (e *Engine) Execute(request *proto.HttpRequest) ([]*proto.Action, error) {
 	e.mutex.RLock()
 	defer e.mutex.RUnlock()
@@ -31,4 +33,12 @@ func (e *Engine) Execute(request *proto.HttpRequest) ([]*proto.Action, error) {
 		}
 	}
 	return actions, nil
+}
+
+func (e *Engine) UpdateProgram(program *Program)  {
+	e.mutex.Lock()
+	defer  e.mutex.Unlock()
+
+	log.Print("updated program")
+	e.program = program
 }

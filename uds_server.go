@@ -10,6 +10,8 @@ import (
 	"log"
 	"net"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 )
 
@@ -23,6 +25,10 @@ func main() {
 	}
 	engine := ast.NewEngine(program)
 
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, syscall.SIGHUP)
+	go signalHandler(signals, engine)
+
 	listener := startServer()
 
 	for {
@@ -33,6 +39,20 @@ func main() {
 		go handleConnection(conn, engine)
 	}
 
+}
+
+func signalHandler(signals chan os.Signal, engine *ast.Engine) {
+	sig := <-signals
+	if sig != syscall.SIGHUP {
+		log.Println("Unknown Signal ", sig)
+		return
+	}
+	program, err := conf_parser.Read("rules.json")
+	if err != nil {
+		log.Println("Unable to parse rules: ", err)
+		return
+	}
+	engine.UpdateProgram(program)
 }
 
 func startServer() net.Listener {

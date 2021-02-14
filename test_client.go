@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func main() {
+func main2() {
 
 	conn, _ := net.Dial("unix", "/tmp/gruler.sock")
 	waitGroup := &sync.WaitGroup{}
