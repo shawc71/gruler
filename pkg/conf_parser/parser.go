@@ -59,7 +59,7 @@ func parseAction(actionJson map[string]interface{}) (ast.Action, error) {
 	if actionType == "setHeader" {
 		return parseSetHeaderAction(actionJson)
 	}
-	if actionType  == "block" {
+	if actionType == "block" {
 		return parseBlockAction(actionJson)
 	}
 	return ast.Action{}, fmt.Errorf("invalid action type '%v'", actionJson)

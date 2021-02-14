@@ -12,13 +12,14 @@ import (
 )
 
 func main() {
+
+	conn, _ := net.Dial("unix", "/tmp/gruler.sock")
 	waitGroup := &sync.WaitGroup{}
-	count := 4000
+	count := 1000
 	startTime := time.Now()
 	for i := 0; i < count; i++ {
-		conn, _ := net.Dial("unix", "/tmp/gruler.sock")
 		waitGroup.Add(1)
-		go callServer(conn, i, waitGroup)
+		callServer(conn, i, waitGroup)
 	}
 	waitGroup.Wait()
 	delta := time.Since(startTime).Milliseconds()

@@ -16,7 +16,7 @@ func NewEngine(program *Program) *Engine {
 		program: program,
 	}
 }
-func (e *Engine) Execute(request *proto.HttpRequest) ([]*proto.Action, error)  {
+func (e *Engine) Execute(request *proto.HttpRequest) ([]*proto.Action, error) {
 	e.mutex.RLock()
 	defer e.mutex.RUnlock()
 

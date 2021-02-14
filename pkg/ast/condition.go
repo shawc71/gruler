@@ -49,6 +49,7 @@ func (a *AndCondition) True(request *proto.HttpRequest) (bool, error) {
 	}
 	return condResult, nil
 }
+
 type OrCondition struct {
 	Conditions []Condition
 }
