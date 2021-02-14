@@ -7,21 +7,30 @@ import (
 	localProto "gruler/pkg/proto"
 	"log"
 	"net"
+	"sync"
 	"time"
 )
 
 func main() {
-
-	count := 1000
+	waitGroup := &sync.WaitGroup{}
+	count := 4000
 	startTime := time.Now()
-	response := &localProto.Response{}
-	conn, _ := net.Dial("unix", "/tmp/gruler.sock")
 	for i := 0; i < count; i++ {
-		writeDummyRequest(conn, i)
-		response = readResponse(conn)
+		conn, _ := net.Dial("unix", "/tmp/gruler.sock")
+		waitGroup.Add(1)
+		go callServer(conn, i, waitGroup)
 	}
+	waitGroup.Wait()
 	delta := time.Since(startTime).Milliseconds()
-	fmt.Printf("%v\n Took %v\n", response, float64(delta) / float64(count))
+	fmt.Printf("Took %v\n", float64(delta)/float64(count))
+}
+
+func callServer(conn net.Conn, i int, waitGroup *sync.WaitGroup) *localProto.Response {
+	defer waitGroup.Done()
+
+	writeDummyRequest(conn, i)
+	response := readResponse(conn)
+	return response
 }
 
 func writeDummyRequest(conn net.Conn, i int) {
@@ -48,6 +57,7 @@ func writeDummyRequest(conn net.Conn, i int) {
 }
 
 func readResponse(conn net.Conn) *localProto.Response {
+
 	sizeBuf := make([]byte, 4)
 	if _, err := conn.Read(sizeBuf); err != nil {
 		log.Fatal(err)

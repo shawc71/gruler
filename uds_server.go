@@ -17,13 +17,11 @@ const sockAddr = "/tmp/gruler.sock"
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	prog, err := conf_parser.Read("rules.json")
+	program, err := conf_parser.Read("rules.json")
 	if err != nil {
 		log.Fatal(err)
 	}
-	engine := &ast.Engine{
-		Program:  prog,
-	}
+	engine := ast.NewEngine(program)
 
 	listener := startServer()
 
