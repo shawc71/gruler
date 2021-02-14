@@ -12,17 +12,26 @@ import (
 
 func main() {
 	conn, _ := net.Dial("unix", "/tmp/gruler.sock")
+
+	startTime := time.Now()
+	writeDummyRequest(conn)
+	delta := time.Since(startTime).Nanoseconds()
+
+	response := readResponse(conn)
+	fmt.Printf("%v\n Took %v\n", response, delta)
+}
+
+func writeDummyRequest(conn net.Conn) {
 	headers := make(map[string]string)
 	headers["host"] = "example.com"
 	httpRequest := &localProto.HttpRequest{
-		Method:  "PUT",
+		Method:   "PUT",
 		ClientIp: "127.0.0.1",
-		Headers: headers,
+		Headers:  headers,
 	}
 	request := &localProto.Request{HttpRequest: httpRequest}
 	data, err := proto.Marshal(request)
 	size := len(data)
-	fmt.Println(size)
 	sizeBuf := make([]byte, 4)
 	binary.BigEndian.PutUint32(sizeBuf, uint32(size))
 	_, err = conn.Write(sizeBuf)
@@ -33,5 +42,23 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	time.Sleep(30 * time.Second)
+}
+
+func readResponse(conn net.Conn) *localProto.Response {
+	sizeBuf := make([]byte, 4)
+	if _, err := conn.Read(sizeBuf); err != nil {
+		log.Fatal(err)
+	}
+
+	messageSize := binary.BigEndian.Uint32(sizeBuf)
+	dataBuf := make([]byte, messageSize)
+
+	if _, err := conn.Read(dataBuf); err != nil {
+		log.Fatal(err)
+	}
+	response := localProto.Response{}
+	if err := proto.Unmarshal(dataBuf, &response); err != nil {
+		log.Fatal(err)
+	}
+	return &response
 }

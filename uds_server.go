@@ -6,6 +6,7 @@ import (
 	"gruler/pkg/ast"
 	"gruler/pkg/conf_parser"
 	localProto "gruler/pkg/proto"
+	"io"
 	"log"
 	"net"
 	"os"
@@ -53,7 +54,9 @@ func handleConnection(conn net.Conn, rulesEngine *ast.Engine) {
 	for {
 		request, err := readRequest(conn)
 		if err != nil {
-			log.Println(err)
+			if err != io.EOF {
+				log.Println(err)
+			}
 			return
 		}
 
