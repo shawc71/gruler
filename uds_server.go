@@ -42,17 +42,19 @@ func main() {
 }
 
 func signalHandler(signals chan os.Signal, engine *ast.Engine) {
-	sig := <-signals
-	if sig != syscall.SIGHUP {
-		log.Println("Unknown Signal ", sig)
-		return
+	for {
+		sig := <-signals
+		if sig != syscall.SIGHUP {
+			log.Println("Unknown Signal ", sig)
+			return
+		}
+		program, err := conf_parser.Read("rules.json")
+		if err != nil {
+			log.Println("Unable to parse rules: ", err)
+			return
+		}
+		engine.UpdateProgram(program)
 	}
-	program, err := conf_parser.Read("rules.json")
-	if err != nil {
-		log.Println("Unable to parse rules: ", err)
-		return
-	}
-	engine.UpdateProgram(program)
 }
 
 func startServer() net.Listener {
