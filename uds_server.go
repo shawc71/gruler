@@ -66,7 +66,6 @@ func handleConnection(conn net.Conn, rulesEngine *ast.Engine) {
 			log.Println(err)
 			return
 		}
-		log.Printf("%v\n", response)
 	}
 }
 

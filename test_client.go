@@ -11,22 +11,25 @@ import (
 )
 
 func main() {
-	conn, _ := net.Dial("unix", "/tmp/gruler.sock")
 
+	count := 1000
 	startTime := time.Now()
-	writeDummyRequest(conn)
-	delta := time.Since(startTime).Nanoseconds()
-
-	response := readResponse(conn)
-	fmt.Printf("%v\n Took %v\n", response, delta)
+	response := &localProto.Response{}
+	conn, _ := net.Dial("unix", "/tmp/gruler.sock")
+	for i := 0; i < count; i++ {
+		writeDummyRequest(conn, i)
+		response = readResponse(conn)
+	}
+	delta := time.Since(startTime).Milliseconds()
+	fmt.Printf("%v\n Took %v\n", response, float64(delta) / float64(count))
 }
 
-func writeDummyRequest(conn net.Conn) {
+func writeDummyRequest(conn net.Conn, i int) {
 	headers := make(map[string]string)
 	headers["host"] = "example.com"
 	httpRequest := &localProto.HttpRequest{
 		Method:   "PUT",
-		ClientIp: "127.0.0.1",
+		ClientIp: fmt.Sprintf("127.0.0.%d", i),
 		Headers:  headers,
 	}
 	request := &localProto.Request{HttpRequest: httpRequest}
