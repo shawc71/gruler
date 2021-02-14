@@ -5,7 +5,7 @@ option go_package = "gruler/pkg/proto";
 
 message Response {
   int64 executionTime = 1;
-  bool success = 2
+  bool success = 2;
   repeated Action actions = 3;
 }
 
