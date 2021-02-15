@@ -6,6 +6,7 @@ import (
 	"gruler/pkg/ast"
 	"gruler/pkg/conf_parser"
 	localProto "gruler/pkg/proto"
+	"gruler/pkg/throttle"
 	"io"
 	"log"
 	"net"
@@ -16,10 +17,11 @@ import (
 )
 
 const sockAddr = "/tmp/gruler.sock"
+const rulesFilePath = "rules.json"
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	program, err := conf_parser.Read("rules.json")
+	program, err := conf_parser.NewConfParser(rulesFilePath, throttle.NewBucketManager()).Read()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,7 +32,7 @@ func main() {
 	go signalHandler(signals, engine)
 
 	listener := startServer()
-
+	log.Println("Started server...")
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
@@ -46,12 +48,12 @@ func signalHandler(signals chan os.Signal, engine *ast.Engine) {
 		sig := <-signals
 		if sig != syscall.SIGHUP {
 			log.Println("Unknown Signal ", sig)
-			return
+			continue
 		}
-		program, err := conf_parser.Read("rules.json")
+		program, err := conf_parser.NewConfParser(rulesFilePath, throttle.NewBucketManager()).Read()
 		if err != nil {
 			log.Println("Unable to parse rules: ", err)
-			return
+			continue
 		}
 		engine.UpdateProgram(program)
 	}

@@ -11,19 +11,25 @@ import (
 	"time"
 )
 
-func main2() {
+func main() {
 
 	conn, _ := net.Dial("unix", "/tmp/gruler.sock")
 	waitGroup := &sync.WaitGroup{}
-	count := 1000
-	startTime := time.Now()
-	for i := 0; i < count; i++ {
-		waitGroup.Add(1)
-		callServer(conn, i, waitGroup)
+	count := 20
+	//startTime := time.Now()
+	for {
+		for i := 0; i < count; i++ {
+			waitGroup.Add(1)
+			response := callServer(conn, i, waitGroup)
+			fmt.Printf("%v\n", response)
+		}
+		fmt.Println("----------------------------------------------")
+		time.Sleep(time.Second * 2)
 	}
-	waitGroup.Wait()
-	delta := time.Since(startTime).Milliseconds()
-	fmt.Printf("Took %v\n", float64(delta)/float64(count))
+	/*
+		delta := time.Since(startTime).Milliseconds()
+		fmt.Printf("Took %v\n", float64(delta)/float64(count))
+	*/
 }
 
 func callServer(conn net.Conn, i int, waitGroup *sync.WaitGroup) *localProto.Response {
@@ -36,12 +42,11 @@ func callServer(conn net.Conn, i int, waitGroup *sync.WaitGroup) *localProto.Res
 
 func writeDummyRequest(conn net.Conn, i int) {
 	headers := make(map[string]string)
-	headers["host"] = "example.com"
+	headers["host"] = "throttled.example.com"
 	httpRequest := &localProto.HttpRequest{
-		Method:   "PUT",
-		ClientIp: fmt.Sprintf("127.0.0.%d", i),
-		Headers:  headers,
+		Headers: headers,
 	}
+	httpRequest.Method = "PUT"
 	request := &localProto.Request{HttpRequest: httpRequest}
 	data, err := proto.Marshal(request)
 	size := len(data)

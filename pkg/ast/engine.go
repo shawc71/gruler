@@ -35,9 +35,9 @@ func (e *Engine) Execute(request *proto.HttpRequest) ([]*proto.Action, error) {
 	return actions, nil
 }
 
-func (e *Engine) UpdateProgram(program *Program)  {
+func (e *Engine) UpdateProgram(program *Program) {
 	e.mutex.Lock()
-	defer  e.mutex.Unlock()
+	defer e.mutex.Unlock()
 
 	log.Print("updated program")
 	e.program = program
