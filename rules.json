@@ -36,7 +36,7 @@
     {
       "rule_id": "test-client-ip",
       "condition": {
-        "eq": {"http.request.clientIp": "127.0.0.1"}
+        "eq": {"http.request.clientIp": "127.0.0.99"}
       },
       "action": {"type": "block", "statusCode": 429}
     },
@@ -44,10 +44,25 @@
       "rule_id": "test-static-throttle",
       "condition": {
         "and": [
-          {"eq": {"http.request.header.host": "throttled.example.com"}}
+          {"eq": {"http.request.header.host": "deactivated.example.com"}}
         ]
       },
       "action": {"type": "throttle", "max_tokens": 50, "refill_amount": 5, "refill_time": 1 }
+    },
+    {
+      "rule_id": "test-eachUnique-throttle",
+      "condition": {
+        "and": [
+          {"eq": {"http.request.header.host": "throttled.example.com"}}
+        ]
+      },
+      "action": {
+        "type": "throttle",
+        "max_tokens": 5,
+        "refill_amount": 5,
+        "refill_time": 1,
+        "each_unique": "http.request.clientIp"
+      }
     }
   ]
 }

@@ -20,7 +20,14 @@ func main() {
 	for {
 		for i := 0; i < count; i++ {
 			waitGroup.Add(1)
-			response := callServer(conn, i, waitGroup)
+			response := callServer(conn, "127.0.0.0", waitGroup)
+			fmt.Printf("%v\n", response)
+		}
+
+		fmt.Println("Running for other ip")
+		for i := 0; i < count; i++ {
+			waitGroup.Add(1)
+			response := callServer(conn, "127.0.0.1", waitGroup)
 			fmt.Printf("%v\n", response)
 		}
 		fmt.Println("----------------------------------------------")
@@ -32,20 +39,21 @@ func main() {
 	*/
 }
 
-func callServer(conn net.Conn, i int, waitGroup *sync.WaitGroup) *localProto.Response {
+func callServer(conn net.Conn, clientIp string, waitGroup *sync.WaitGroup) *localProto.Response {
 	defer waitGroup.Done()
 
-	writeDummyRequest(conn, i)
+	writeDummyRequest(conn, clientIp)
 	response := readResponse(conn)
 	return response
 }
 
-func writeDummyRequest(conn net.Conn, i int) {
+func writeDummyRequest(conn net.Conn, clientIp string) {
 	headers := make(map[string]string)
 	headers["host"] = "throttled.example.com"
 	httpRequest := &localProto.HttpRequest{
 		Headers: headers,
 	}
+	httpRequest.ClientIp = clientIp
 	httpRequest.Method = "PUT"
 	request := &localProto.Request{HttpRequest: httpRequest}
 	data, err := proto.Marshal(request)
