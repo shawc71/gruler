@@ -1,10 +1,10 @@
 all: proto server driver
 
 server:
-	go build -o ./dist/server ./cmd/server
+	go build -o ./dist/server ./cmd/gruler_server
 
 driver:
-	go build -o ./dist/driver ./cmd/test_driver
+	go build -o ./dist/test_driver ./cmd/test_driver
 
 proto:
 	protoc --go_out=paths=source_relative:. -I. pkg/proto/*.proto
