@@ -118,7 +118,8 @@ func writeResponseSize(conn net.Conn, wireResponse []byte) error {
 
 func applyRules(rulesEngine *ast.Engine, request *localProto.Request) *localProto.Response {
 	startTime := time.Now()
-	actions, err := rulesEngine.Execute(request.GetHttpRequest())
+	requestFieldResolver := ast.NewRequestFieldResolver(request.GetHttpRequest())
+	actions, err := rulesEngine.Execute(requestFieldResolver)
 	delta := time.Since(startTime).Nanoseconds()
 	response := &localProto.Response{}
 	if err == nil {

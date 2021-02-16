@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"gruler/pkg/proto"
 	"gruler/pkg/throttle"
-	"strings"
 	"time"
 )
 
@@ -30,8 +29,8 @@ type Action struct {
 	ThrottleConf ThrottleConfig
 }
 
-func (r *Rule) Evaluate(request *proto.HttpRequest) (*proto.Action, bool, error) {
-	isTrue, err := r.Condition.True(request)
+func (r *Rule) Evaluate(requestFieldResolver *RequestFieldResolver) (*proto.Action, bool, error) {
+	isTrue, err := r.Condition.True(requestFieldResolver)
 	if err != nil {
 		return nil, false, err
 	}
@@ -39,7 +38,7 @@ func (r *Rule) Evaluate(request *proto.HttpRequest) (*proto.Action, bool, error)
 		return &proto.Action{}, false, nil
 	}
 	if r.Action.ActionType == "throttle" {
-		key, err := r.generateThrottleKey(request)
+		key, err := r.generateThrottleKey(requestFieldResolver)
 		if err != nil {
 			return nil, false, err
 		}
@@ -60,21 +59,13 @@ func (r *Rule) Evaluate(request *proto.HttpRequest) (*proto.Action, bool, error)
 	}, true, nil
 }
 
-func (r *Rule) generateThrottleKey(request *proto.HttpRequest) (string, error) {
+func (r *Rule) generateThrottleKey(requestFieldResolver *RequestFieldResolver) (string, error) {
 	if r.Action.ThrottleConf.EachUnique == "" {
 		return r.RuleId, nil
 	}
-	eachUniqueVal := r.Action.ThrottleConf.EachUnique
-	arg := strings.Split(r.Action.ThrottleConf.EachUnique, ".")
-	if arg[2] == "method" {
-		return fmt.Sprintf("%s.%s", r.RuleId, request.Method), nil
-	} else if arg[2] == "header" {
-		if len(arg) != 4 {
-			return "", fmt.Errorf("invalid EachUnique %s", eachUniqueVal)
-		}
-		return fmt.Sprintf("%s.%s", r.RuleId, request.Headers[arg[3]]), nil
-	} else if arg[2] == "clientIp" {
-		return fmt.Sprintf("%s.%s", request.ClientIp), nil
+	fieldVal, err := requestFieldResolver.GetFieldValue(r.Action.ThrottleConf.EachUnique)
+	if err != nil {
+		return "", fmt.Errorf("invalid EachUnique %s", r.Action.ThrottleConf.EachUnique)
 	}
-	return "", fmt.Errorf("invalid EachUnique %s", eachUniqueVal)
+	return fmt.Sprintf("%s.%s", r.RuleId, fieldVal), nil
 }

@@ -1,7 +1,7 @@
 all: proto server driver
 
 server:
-	go build -o ./dist/server ./cmd/gruler_server
+	go build -o ./dist/gruler_server ./cmd/server
 
 driver:
 	go build -o ./dist/test_driver ./cmd/test_driver

@@ -18,13 +18,13 @@ func NewEngine(program *Program) *Engine {
 	}
 }
 
-func (e *Engine) Execute(request *proto.HttpRequest) ([]*proto.Action, error) {
+func (e *Engine) Execute(requestFieldResolver *RequestFieldResolver) ([]*proto.Action, error) {
 	e.mutex.RLock()
 	defer e.mutex.RUnlock()
 
 	actions := make([]*proto.Action, 0)
 	for _, rule := range e.program.Rules {
-		action, isTrue, err := rule.Evaluate(request)
+		action, isTrue, err := rule.Evaluate(requestFieldResolver)
 		if err != nil {
 			return nil, err
 		}
