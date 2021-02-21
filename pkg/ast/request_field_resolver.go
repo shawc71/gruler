@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// Maps being request fields referenced in the rules json to the values of the field in the underlying
+// Maps request fields referenced in the rules json to the values of the field in the underlying
 // request protobuf
 type RequestFieldResolver struct {
 	request *proto.HttpRequest
