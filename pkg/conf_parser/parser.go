@@ -23,11 +23,11 @@ func NewConfParser(filePath string, bucketManager *throttle.BucketManager) *conf
 }
 
 func (c *confParser) Read() (*ast.Program, error) {
-	json, err := c.jsonFromFile(c.filePath)
+	rulesJson, err := c.jsonFromFile(c.filePath)
 	if err != nil {
 		return nil, err
 	}
-	rules, err := c.parseRules(json)
+	rules, err := c.parseRules(rulesJson)
 	if err != nil {
 		return nil, err
 	}
@@ -133,18 +133,20 @@ func (c *confParser) parseCondition(conditionJson map[string]interface{}) (ast.C
 		return nil, fmt.Errorf("invalid condition %v", conditionJson)
 	}
 	for conditionType, value := range conditionJson {
-		if conditionType == "eq" {
+		switch conditionType {
+		case "eq":
 			return c.parseEqCondition(conditionJson, conditionType, value)
-		} else if conditionType == "and" {
+		case "and":
 			return c.parseAndCondition(value)
-		} else if conditionType == "or" {
+		case "or":
 			return c.parseOrCondition(value)
-		} else if conditionType == "not" {
+		case "not":
 			return c.parseNotCondition(value)
-		} else if conditionType == "in" {
+		case "in":
 			return c.parseInCondition(value)
+		default:
+			return nil, fmt.Errorf("invalid condition %v:%v", conditionType, value)
 		}
-		return nil, fmt.Errorf("invalid condition %v:%v", conditionType, value)
 	}
 	return nil, fmt.Errorf("invalid condition %v", conditionJson)
 }
