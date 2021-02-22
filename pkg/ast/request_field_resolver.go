@@ -32,34 +32,40 @@ func NewRequestFieldResolver(request *proto.HttpRequest) *RequestFieldResolver {
 
 func (f *RequestFieldResolver) GetFieldValue(fieldName string) (string, error) {
 	arg := strings.Split(fieldName, ".")
-	if arg[2] == "method" {
+	switch arg[2] {
+	case "method":
 		return f.request.Method, nil
-	} else if arg[2] == "header" {
+	case "header":
 		return f.getHeaderVal(fieldName, arg)
-	} else if arg[2] == "clientIp" {
+	case "clientIp":
 		return f.request.ClientIp, nil
-	} else if arg[2] == "httpVersion" {
+	case "httpVersion":
 		return f.request.HttpVersion, nil
-	} else if arg[2] == "rawUri" {
+	case "rawUri":
 		return f.request.RequestUri, nil
-	} else if arg[2] == "path" {
+	case "path":
 		return f.path, nil
-	} else if arg[2] == "rawQueryParams" {
+	case "rawQueryParams":
 		return f.rawQueryParams, nil
-	} else if arg[2] == "queryParam" {
-		if len(arg) != 4 {
-			return "", fmt.Errorf("invalid target %s", fieldName)
-		}
-		if f.parsedQueryParams == nil {
-			values, err := url.ParseQuery(f.rawQueryParams)
-			if err != nil {
-				return "", fmt.Errorf("unable to parse query string %s", f.rawQueryParams)
-			}
-			f.parsedQueryParams = values
-		}
-		return f.parsedQueryParams.Get(arg[3]), nil
+	case "queryParam":
+		return f.getQueryParam(fieldName, arg)
+	default:
+		return "", fmt.Errorf("invalid target %s", fieldName)
 	}
-	return "", fmt.Errorf("invalid target %s", fieldName)
+}
+
+func (f *RequestFieldResolver) getQueryParam(fieldName string, arg []string) (string, error) {
+	if len(arg) != 4 {
+		return "", fmt.Errorf("invalid target %s", fieldName)
+	}
+	if f.parsedQueryParams == nil {
+		values, err := url.ParseQuery(f.rawQueryParams)
+		if err != nil {
+			return "", fmt.Errorf("unable to parse query string %s", f.rawQueryParams)
+		}
+		f.parsedQueryParams = values
+	}
+	return f.parsedQueryParams.Get(arg[3]), nil
 }
 
 func (f *RequestFieldResolver) getHeaderVal(fieldName string, arg []string) (string, error) {
