@@ -1,7 +1,5 @@
 package ast
 
-import "C"
-
 type Condition interface {
 	True(requestFieldResolver *RequestFieldResolver) (bool, error)
 }
