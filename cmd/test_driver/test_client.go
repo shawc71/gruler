@@ -15,6 +15,18 @@ func main() {
 
 	conn, _ := net.Dial("unix", "/tmp/gruler.sock")
 	waitGroup := &sync.WaitGroup{}
+	waitGroup.Add(1)
+	response := callServer(conn, "127.0.0.0", waitGroup)
+	fmt.Printf("%v\n", response)
+	//throttleTest(conn)
+	/*
+		delta := time.Since(startTime).Milliseconds()
+		fmt.Printf("Took %v\n", float64(delta)/float64(count))
+	*/
+}
+
+func throttleTest(conn net.Conn) {
+	waitGroup := &sync.WaitGroup{}
 	count := 20
 	//startTime := time.Now()
 	for {
@@ -33,10 +45,6 @@ func main() {
 		fmt.Println("----------------------------------------------")
 		time.Sleep(time.Second * 2)
 	}
-	/*
-		delta := time.Since(startTime).Milliseconds()
-		fmt.Printf("Took %v\n", float64(delta)/float64(count))
-	*/
 }
 
 func callServer(conn net.Conn, clientIp string, waitGroup *sync.WaitGroup) *localProto.Response {
@@ -49,12 +57,13 @@ func callServer(conn net.Conn, clientIp string, waitGroup *sync.WaitGroup) *loca
 
 func writeDummyRequest(conn net.Conn, clientIp string) {
 	headers := make(map[string]string)
-	headers["host"] = "throttled.example.com"
+	headers["host"] = "foo.example.com"
 	httpRequest := &localProto.HttpRequest{
 		Headers: headers,
 	}
 	httpRequest.ClientIp = clientIp
-	httpRequest.Method = "PUT"
+	httpRequest.Method = "OPTIONS"
+	httpRequest.RequestUri = "/some-path/bar?userId=joe"
 	request := &localProto.Request{HttpRequest: httpRequest}
 	data, err := proto.Marshal(request)
 	size := len(data)

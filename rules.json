@@ -63,6 +63,11 @@
         "refill_time": 1,
         "each_unique": "http.request.clientIp"
       }
+    },
+    {
+      "rule_id": "test-queryParam",
+      "condition": {"eq": {"http.request.queryParam.userId": "joe"}},
+      "action": {"type": "block", "statusCode": 503}
     }
   ]
 }

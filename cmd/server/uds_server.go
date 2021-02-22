@@ -120,6 +120,9 @@ func applyRules(rulesEngine *ast.Engine, request *localProto.Request) *localProt
 	startTime := time.Now()
 	requestFieldResolver := ast.NewRequestFieldResolver(request.GetHttpRequest())
 	actions, err := rulesEngine.Execute(requestFieldResolver)
+	if err != nil {
+		log.Printf("ERROR: %s", err.Error())
+	}
 	delta := time.Since(startTime).Nanoseconds()
 	response := &localProto.Response{}
 	if err == nil {
