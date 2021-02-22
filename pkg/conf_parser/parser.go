@@ -141,6 +141,8 @@ func (c *confParser) parseCondition(conditionJson map[string]interface{}) (ast.C
 			return c.parseOrCondition(value)
 		} else if conditionType == "not" {
 			return c.parseNotCondition(value)
+		} else if conditionType == "in" {
+			return c.parseInCondition(value)
 		}
 		return nil, fmt.Errorf("invalid condition %v:%v", conditionType, value)
 	}
@@ -198,6 +200,25 @@ func (c *confParser) parseNotCondition(value interface{}) (ast.Condition, error)
 		return nil, err
 	}
 	return &ast.NotCondition{WrappedCondition: wrappedCondition}, nil
+}
+
+func (c *confParser) parseInCondition(conditionJson interface{}) (ast.Condition, error) {
+	valueMap := conditionJson.(map[string]interface{})
+	if len(valueMap) != 1 {
+		return nil, fmt.Errorf("invalid condition %v", conditionJson)
+	}
+	inSet := make(map[string]bool)
+	for left, right := range valueMap {
+		values := right.([]interface{})
+		for _, item := range values {
+			inSet[item.(string)] = true
+		}
+		return &ast.InCondition{
+			Left:  left,
+			Right: inSet,
+		}, nil
+	}
+	return nil, fmt.Errorf("invalid condition %v", conditionJson)
 }
 
 func (c *confParser) jsonFromFile(path string) (map[string]interface{}, error) {

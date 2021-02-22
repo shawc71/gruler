@@ -66,3 +66,17 @@ func (n *NotCondition) True(requestFieldResolver *RequestFieldResolver) (bool, e
 	}
 	return !isTrue, nil
 }
+
+type InCondition struct {
+	Left  string
+	Right map[string]bool
+}
+
+func (e *InCondition) True(requestFieldResolver *RequestFieldResolver) (bool, error) {
+	fieldValue, err := requestFieldResolver.GetFieldValue(e.Left)
+	if err != nil {
+		return false, err
+	}
+	_, exists := e.Right[fieldValue]
+	return exists, nil
+}

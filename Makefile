@@ -9,5 +9,8 @@ driver:
 proto:
 	protoc --go_out=paths=source_relative:. -I. pkg/proto/*.proto
 
+fmt:
+	gofmt -s -w pkg cmd
+
 clean:
 	rm -rf ./dist
