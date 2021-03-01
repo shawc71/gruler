@@ -5,7 +5,7 @@ The webserver writes a summary of the incoming request to the socket and receive
 that apply to that request. Rules are defined in json see example-rules.json.
 
 ## Rule
-Each rule consistes of:
+Each rule consists of:
 
 - Rule Id: This uniquely identifies the rule in your rule set.
 - Condition: A condition which if evaluates to true results in the corresponding action applying.

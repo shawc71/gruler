@@ -13,12 +13,14 @@ import (
 type confParser struct {
 	filePath      string
 	bucketManager *throttle.BucketManager
+	seenRuleIds map[string]bool
 }
 
 func NewConfParser(filePath string, bucketManager *throttle.BucketManager) *confParser {
 	return &confParser{
 		filePath:      filePath,
 		bucketManager: bucketManager,
+		seenRuleIds: make(map[string]bool),
 	}
 }
 
@@ -46,10 +48,11 @@ func (c *confParser) parseRules(json map[string]interface{}) ([]ast.Rule, error)
 	ruleList := make([]ast.Rule, 0)
 	for _, j := range rules {
 		jsonRule := j.(map[string]interface{})
-		if _, exists := jsonRule["rule_id"]; !exists {
-			return nil, fmt.Errorf("rule_id is missing in a rule")
+		ruleId, err := c.parseRuleId(jsonRule)
+		if err != nil {
+			return nil, err
 		}
-		rule.RuleId = jsonRule["rule_id"].(string)
+		rule.RuleId = ruleId
 		condition, err := c.parseCondition(jsonRule["condition"].(map[string]interface{}))
 		if err != nil {
 			return nil, err
@@ -64,6 +67,18 @@ func (c *confParser) parseRules(json map[string]interface{}) ([]ast.Rule, error)
 		ruleList = append(ruleList, rule)
 	}
 	return ruleList, nil
+}
+
+func (c *confParser) parseRuleId(jsonRule map[string]interface{}) (string, error) {
+	if _, exists := jsonRule["rule_id"]; !exists {
+		return "", fmt.Errorf("rule_id is missing in a rule")
+	}
+	ruleId := jsonRule["rule_id"].(string)
+	if _, exists := c.seenRuleIds[ruleId]; exists {
+		return "", fmt.Errorf("rule_id %s is defined multiple times", ruleId)
+	}
+	c.seenRuleIds[ruleId] = true
+	return ruleId, nil
 }
 
 func (c *confParser) parseAction(actionJson map[string]interface{}) (ast.Action, error) {
