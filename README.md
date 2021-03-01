@@ -1,5 +1,18 @@
 # gruler
 
+Gruler is a Rules Engine for defining actions on HTTP requests. It runs as a process listening in on a unix domain socket. 
+The webserver writes a summary of the incoming request to the socket and receives a response containing a list of actions
+that apply to that request. Rules are defined in json see example-rules.json.
+
+## Rule
+Each rule consistes of:
+
+- Rule Id: This uniquely identifies the rule in your rule set.
+- Condition: A condition which if evaluates to true results in the corresponding action applying.
+- Action: The action to apply to the request if the condition evaluates to true
+
+TODO: Explain the rule authoring syntax.
+
 ## Communication Protocol
 
 For communication between your application server and the gruler server, protocol buffers are used.
