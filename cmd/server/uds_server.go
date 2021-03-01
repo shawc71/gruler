@@ -172,6 +172,7 @@ func readConfig() *config {
 
 	if conf.rulesFilePath == "" {
 		flag.Usage()
+		os.Exit(1)
 	}
 
 	return &conf
