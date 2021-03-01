@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/binary"
+	"flag"
 	"github.com/golang/protobuf/proto"
 	"gruler/pkg/ast"
 	"gruler/pkg/conf_parser"
@@ -17,11 +18,15 @@ import (
 )
 
 const sockAddr = "/tmp/gruler.sock"
-const rulesFilePath = "rules.json"
+
+type config struct {
+	rulesFilePath string
+}
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	program, err := conf_parser.NewConfParser(rulesFilePath, throttle.NewBucketManager()).Read()
+	conf := readConfig()
+	program, err := conf_parser.NewConfParser(conf.rulesFilePath, throttle.NewBucketManager()).Read()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,7 +34,7 @@ func main() {
 
 	signals := make(chan os.Signal, 1)
 	signal.Notify(signals, syscall.SIGHUP)
-	go signalHandler(signals, engine)
+	go signalHandler(signals, engine, conf)
 
 	listener := startServer()
 	log.Println("Started server...")
@@ -43,14 +48,14 @@ func main() {
 
 }
 
-func signalHandler(signals chan os.Signal, engine *ast.Engine) {
+func signalHandler(signals chan os.Signal, engine *ast.Engine, conf *config) {
 	for {
 		sig := <-signals
 		if sig != syscall.SIGHUP {
 			log.Println("Unknown Signal ", sig)
 			continue
 		}
-		program, err := conf_parser.NewConfParser(rulesFilePath, throttle.NewBucketManager()).Read()
+		program, err := conf_parser.NewConfParser(conf.rulesFilePath, throttle.NewBucketManager()).Read()
 		if err != nil {
 			log.Println("Unable to parse rules: ", err)
 			continue
@@ -157,4 +162,17 @@ func readRequest(conn net.Conn) (*localProto.Request, error) {
 		return nil, err
 	}
 	return &request, nil
+}
+
+func readConfig() *config {
+	conf := config{}
+	flag.StringVar(&conf.rulesFilePath, "rulesFile", "", "path to the file containing the rules")
+
+	flag.Parse()
+
+	if conf.rulesFilePath == "" {
+		flag.Usage()
+	}
+
+	return &conf
 }
