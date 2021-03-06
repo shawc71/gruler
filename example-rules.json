@@ -1,17 +1,16 @@
 {
-
   "rules": [
     {
       "rule_id": "test-eq-cond",
-      "condition": {"eq": {"http.request.method": "GET"}},
+      "condition": {"eq": {"request.method": "GET"}},
       "action": {"type": "setHeader", "headerName": "foo", "headerValue": "bar"}
     },
     {
       "rule_id": "test-and-cond",
       "condition": {
         "and": [
-          {"eq": {"http.request.method": "GET"}},
-          {"eq": {"http.request.header.host": "example.com"}}
+          {"eq": {"request.method": "GET"}},
+          {"eq": {"request.header.host": "example.com"}}
         ]
       },
       "action": {"type": "setHeader", "headerName": "hi", "headerValue": "there"}
@@ -20,8 +19,8 @@
       "rule_id": "test-or-cond",
       "condition": {
         "or": [
-          {"eq": {"http.request.method": "GET"}},
-          {"eq": {"http.request.header.host": "foo.com"}}
+          {"eq": {"request.method": "GET"}},
+          {"eq": {"request.header.host": "foo.com"}}
         ]
       },
       "action": {"type": "setHeader", "headerName": "or", "headerValue": "condition"}
@@ -29,14 +28,14 @@
     {
       "rule_id": "test-not-cond",
       "condition": {
-        "not": {"eq": {"http.request.method": "PUT"}}
+        "not": {"eq": {"request.method": "PUT"}}
       },
       "action": {"type": "block", "statusCode": 503}
     },
     {
       "rule_id": "test-client-ip",
       "condition": {
-        "eq": {"http.request.clientIp": "127.0.0.99"}
+        "eq": {"request.clientIp": "127.0.0.99"}
       },
       "action": {"type": "block", "statusCode": 429}
     },
@@ -44,7 +43,7 @@
       "rule_id": "test-static-throttle",
       "condition": {
         "and": [
-          {"eq": {"http.request.header.host": "deactivated.example.com"}}
+          {"eq": {"request.header.host": "deactivated.example.com"}}
         ]
       },
       "action": {"type": "throttle", "max_tokens": 50, "refill_amount": 5, "refill_time": 1 }
@@ -53,7 +52,7 @@
       "rule_id": "test-eachUnique-throttle",
       "condition": {
         "and": [
-          {"eq": {"http.request.header.host": "throttled.example.com"}}
+          {"eq": {"request.header.host": "throttled.example.com"}}
         ]
       },
       "action": {
@@ -61,17 +60,17 @@
         "max_tokens": 5,
         "refill_amount": 5,
         "refill_time": 1,
-        "each_unique": "http.request.clientIp"
+        "each_unique": "request.clientIp"
       }
     },
     {
       "rule_id": "test-queryParam",
-      "condition": {"eq": {"http.request.queryParam.userId": "paul"}},
+      "condition": {"eq": {"request.queryParam.userId": "paul"}},
       "action": {"type": "block", "statusCode": 503}
     },
     {
       "rule_id": "test-in-condition",
-      "condition": {"in": {"http.request.queryParam.userId": ["joe", "jane", "victor"]}},
+      "condition": {"in": {"request.queryParam.userId": ["joe", "jane", "victor"]}},
       "action": {"type": "block", "statusCode": 503}
     }
   ]

@@ -32,7 +32,7 @@ func NewRequestFieldResolver(request *proto.HttpRequest) *RequestFieldResolver {
 
 func (f *RequestFieldResolver) GetFieldValue(fieldName string) (string, error) {
 	arg := strings.Split(fieldName, ".")
-	switch arg[2] {
+	switch arg[1] {
 	case "method":
 		return f.request.Method, nil
 	case "header":
@@ -55,7 +55,7 @@ func (f *RequestFieldResolver) GetFieldValue(fieldName string) (string, error) {
 }
 
 func (f *RequestFieldResolver) getQueryParam(fieldName string, arg []string) (string, error) {
-	if len(arg) != 4 {
+	if len(arg) != 3 {
 		return "", fmt.Errorf("invalid target %s", fieldName)
 	}
 	if f.parsedQueryParams == nil {
@@ -65,12 +65,12 @@ func (f *RequestFieldResolver) getQueryParam(fieldName string, arg []string) (st
 		}
 		f.parsedQueryParams = values
 	}
-	return f.parsedQueryParams.Get(arg[3]), nil
+	return f.parsedQueryParams.Get(arg[2]), nil
 }
 
 func (f *RequestFieldResolver) getHeaderVal(fieldName string, arg []string) (string, error) {
-	if len(arg) != 4 {
+	if len(arg) != 3 {
 		return "", fmt.Errorf("invalid target %s", fieldName)
 	}
-	return f.request.Headers[arg[3]], nil
+	return f.request.Headers[arg[2]], nil
 }
