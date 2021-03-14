@@ -11,7 +11,20 @@ Each rule consists of:
 - Condition: A condition which if evaluates to true results in the corresponding action applying.
 - Action: The action to apply to the request if the condition evaluates to true
 
-TODO: Explain the rule authoring syntax.
+### Rule Id
+
+Rule id is the id of the rule and must be unique in the ruleset.
+
+### Condition
+
+The supported conditions are:
+
+* eq: Equals
+```
+"eq": {"request.method": "GET"}
+```
+
+Conditions are recursive and may be nested inside of one another.
 
 ## Communication Protocol
 
