@@ -16,15 +16,60 @@ Each rule consists of:
 Rule id is the id of the rule and must be unique in the ruleset.
 
 ### Condition
+There are two types of  conditions- terminal conditions and non-terminal conditions. 
 
-The supported conditions are:
+Terminal conditions do not contain any nested conditions. Non-terminal conditions are recursive and contain other conditions
 
-* eq: Equals
+The supported terminal conditions are:
+
+#### eq
+
+This condition is written as `"{eq": {"request_field": "request_field_value"}}`
+
+The `request_field` is the property of the request to examine, if the runtime value of the `request_field` 
+equals to the specified `request_field_value` then the condition evaluates to `true`. 
+
+For example `{"eq": {"request.method": "GET"}}` -- this condition will evaluate to true if the request is a GET request.
+
+For a list of all available `request_field`s. See [Introspectable Request fields](#introspectable_request_fields)
+
+#### in
+This condition is written as `"{in": {"request_field": ["val-a", "val-b", "val-c", ...]"}}`
+
+The `request_field` is the property of the request to examine, if the runtime value of the `request_field`
+is one of the ones to the specified in the array on the right hand side then the condition evaluates to `true`.
+
+For example `"{in": {"request.method": ["GET", "OPTIONS", "PATCH"]}}` -- this condition will evaluate to true if the 
+request is a GET, OPTIONS or PATCH request.
+
+For a list of all available `request_field`s. See [Introspectable Request fields](#introspectable_request_fields)
+
+#### and
+This condition is written as `{"and": [condition-a, condition-b, condition-c ...]"}`
+
+This condition is used when you want the condition to be true if a set of conditions is true. This is similar to `&&` in
+programming languages.
+
+For example:
 ```
-"eq": {"request.method": "GET"}
+{
+    "and": [
+      {"eq": {"request.method": "GET"}},
+      {"eq": {"request.header.host": "example.com"}},
+      {"in": {"request.clientIp": ["72.1.1.1", "73.1.1.1", "74.1.1.1"]}}
+    ]
+}
 ```
+this condition will evaluate to true if all the sub-conditions are true ie. it's a GET request, with Host header set 
+to example.com and the client ip is one of the ones specified. 
 
-Conditions are recursive and may be nested inside of one another.
+Sub-conditions are recursive and may be nested inside of one another without any limit, so the subcondition can be any 
+condition terminal or non-terminal.
+
+## Introspectable request fields
+
+TODO
+
 
 ## Communication Protocol
 
