@@ -31,7 +31,7 @@ equals to the specified `request_field_value` then the condition evaluates to `t
 
 For example `{"eq": {"request.method": "GET"}}` -- this condition will evaluate to true if the request is a GET request.
 
-For a list of all available `request_field`s. See [Introspectable Request fields](#introspectable_request_fields)
+For a list of all available `request_field`s. See [Introspectable Request fields](#introspectable-request-fields)
 
 #### in
 This condition is written as `"{in": {"request_field": ["val-a", "val-b", "val-c", ...]"}}`
