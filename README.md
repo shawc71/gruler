@@ -42,7 +42,7 @@ is one of the ones to the specified in the array on the right hand side then the
 For example `"{in": {"request.method": ["GET", "OPTIONS", "PATCH"]}}` -- this condition will evaluate to true if the 
 request is a GET, OPTIONS or PATCH request.
 
-For a list of all available `request_field`s. See [Introspectable Request fields](#introspectable_request_fields)
+For a list of all available `request_field`s. See [Introspectable Request fields](#introspectable-request-fields)
 
 #### and
 This condition is written as `{"and": [condition-a, condition-b, condition-c ...]"}`
