@@ -45,7 +45,7 @@ request is a GET, OPTIONS or PATCH request.
 For a list of all available `request_field`s. See [Introspectable Request fields](#introspectable-request-fields)
 
 #### and
-This condition is written as `{"and": [condition-a, condition-b, condition-c ...]"}`
+This condition is written as `{"or": [condition-a, condition-b, condition-c ...]"}`
 
 This condition is used when you want the condition to be true if a set of conditions is true. This is similar to `&&` in
 programming languages.
@@ -53,7 +53,7 @@ programming languages.
 For example:
 ```
 {
-    "and": [
+    "or": [
       {"eq": {"request.method": "GET"}},
       {"eq": {"request.header.host": "example.com"}},
       {"in": {"request.clientIp": ["72.1.1.1", "73.1.1.1", "74.1.1.1"]}}
@@ -65,6 +65,35 @@ to example.com and the client ip is one of the ones specified.
 
 Sub-conditions are recursive and may be nested inside of one another without any limit, so the subcondition can be any 
 condition terminal or non-terminal.
+
+#### or
+This condition is written as `{"or": [condition-a, condition-b, condition-c ...]"}`
+
+This condition is used when you want the condition to be true if one ofa set of conditions is true.
+This is similar to `||` in programming languages.
+
+For example:
+```
+{
+    "or": [
+      {"eq": {"request.method": "GET"}},
+      {"eq": {"request.header.host": "example.com"}},
+    ]
+}
+```
+this condition will evaluate to true if one of the sub-conditions is true ie it's a GET request or the Host header set
+to example.com
+
+Sub-conditions are recursive and may be nested inside of one another without any limit, so the subcondition can be any
+condition terminal or non-terminal.
+
+#### not
+This condition is written as `"not": {condition}`.
+
+This negates the result of the nested condition. This is similar to `!` in programming languages.
+
+For example `"not": {"eq": {"request.method": "PUT"}}` will evaluate to true if the request method is not PUT. The
+nested condition can be aby condition.
 
 ## Introspectable request fields
 
