@@ -102,6 +102,8 @@ nested condition can be aby condition.
 | request.clientIp  |    |
 | request.method  |   |
 | request.headers.<header-name>  |   |
+| request.query-params.<header-name>  |   |
+
 
 
 ## Communication Protocol
