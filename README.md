@@ -97,7 +97,11 @@ nested condition can be aby condition.
 
 ## Introspectable request fields
 
-TODO
+|   |   |
+|---|---|
+|   |   |
+|   |   |
+|   |   |
 
 
 ## Communication Protocol
