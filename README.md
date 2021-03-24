@@ -97,11 +97,11 @@ nested condition can be aby condition.
 
 ## Introspectable request fields
 
-|   |   |
+| Field  |   |
 |---|---|
-|   |   |
-|   |   |
-|   |   |
+| request.clientIp  |    |
+| request.method  |   |
+| request.headers.<header-name>  |   |
 
 
 ## Communication Protocol
