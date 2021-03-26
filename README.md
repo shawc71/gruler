@@ -1,7 +1,7 @@
 # gruler
 
-Gruler is a Rules Engine for defining actions on HTTP requests. It runs as a process listening in on a unix domain socket. 
-The webserver writes a summary of the incoming request to the socket and receives a response containing a list of actions
+Gruler is a [Rules Engine](https://martinfowler.com/bliki/RulesEngine.html) for defining actions on HTTP requests. It runs as a process listening in on a unix domain socket. 
+The webserver (which can be any language that speaks [Protocol Buffers](https://developers.google.com/protocol-buffers) writes a summary of the incoming request to the socket and receives a response containing a list of actions
 that apply to that request. Rules are defined in json see example-rules.json.
 
 ## Rule
