@@ -97,12 +97,14 @@ nested condition can be aby condition.
 
 ## Introspectable request fields
 
-| Field  |   |
+| Field  | Description  |
 |---|---|
-| request.clientIp  |    |
-| request.method  |   |
-| request.headers.<header-name>  |   |
-| request.query-params.<header-name>  |   |
+| request.clientIp  |  Returns the ip address of the client eg `10.1.1.1` |
+| request.method  |  The request method eg `POST` |
+| request.httpVersion  |  The http version used by the request eg `HTTP/1.1`|
+| request.header.$header_name  |  Will return the value of the header $header_name. Eg `request.headers.host` will return the value of the `Host` header |
+| request.queryParam.$param | Will return the value of the query param $param. Eg `request.queryParam.user` will return the value of the `user` query param  |
+| request.rawUri  |  The raw uri of the request |
 
 
 
