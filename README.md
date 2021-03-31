@@ -97,6 +97,8 @@ nested condition can be aby condition.
 
 ## Introspectable request fields
 
+The following fields are available to be used in rules:
+
 | Field  | Description  |
 |---|---|
 | request.clientIp  |  Returns the ip address of the client eg `10.1.1.1` |
@@ -104,7 +106,8 @@ nested condition can be aby condition.
 | request.httpVersion  |  The http version used by the request eg `HTTP/1.1`|
 | request.header.$header_name  |  Will return the value of the header $header_name. Eg `request.headers.host` will return the value of the `Host` header |
 | request.queryParam.$param | Will return the value of the query param $param. Eg `request.queryParam.user` will return the value of the `user` query param  |
-| request.rawUri  |  The raw uri of the request |
+| request.rawUri  |  The raw uri of the request|
+| request.rawQueryParams  |  The raw query param string associated with the request eg `user=foo&productId=1&year=2021|
 
 
 
