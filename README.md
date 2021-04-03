@@ -95,6 +95,56 @@ This negates the result of the nested condition. This is similar to `!` in progr
 For example `"not": {"eq": {"request.method": "PUT"}}` will evaluate to true if the request method is not PUT. The
 nested condition can be aby condition.
 
+### Actions
+
+Each rule can contain one action. Actions specify what to do when the condition evaluates to true. The following actions are supported
+
+#### setHeader
+This action will attach a header to the request and pass it on to your application, the purpose of this is if you want your application code to have different behavior based on the corrosponding rule condition evaluating to true.
+
+Example:
+
+```
+    "action": {"type": "setHeader", "headerName": "Internal-Foo", "headerValue": "Value"}
+```
+
+Will attach a header with the name "`Internal-Foo`" and value "`Value`" to the request
+
+#### block
+This action will block the request and it will not be forwarded to your application
+
+```
+    {
+      "rule_id": "test-in-condition",
+      "condition": {"in": {"request.queryParam.userId": ["joe", "jane", "victor"]}},
+      "action": {"type": "block", "statusCode": 503}
+    }
+```
+
+Will return status code 503 and block the request without forwarding it to our application if userId query param has one of the given values
+
+
+#### throttle
+
+Rate limits request, once the rate limit is exceeded all requests are rejected with status code 429
+
+```
+    {
+      "rule_id": "test-static-throttle",
+      "condition": {
+        "and": [
+          {"eq": {"request.header.host": "foo.example.com"}},
+          {"eq": {"request.clientIp": "7.7.7.7"}}
+        ]
+      },
+      "action": {"type": "throttle", "max_tokens": 50, "refill_amount": 5, "refill_time": 1 }
+    }
+```
+
+will limit requests from ip `7.7.7.7` to 5 requests per second bursting upto 50.
+
+TODO: Explain throttle config
+
 ## Introspectable request fields
 
 The following fields are available to be used in rules:
