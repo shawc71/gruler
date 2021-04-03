@@ -126,7 +126,7 @@ Will return status code 503 and block the request without forwarding it to our a
 
 #### throttle
 
-Rate limits request, once the rate limit is exceeded all requests are rejected with status code 429
+Rate limits requests, once the rate limit is exceeded all requests are rejected with status code 429
 
 ```
     {
@@ -150,6 +150,30 @@ Throttle configuration requires the following:
 `refill_time`: The time unit that applies to refill amount.
 
 Together the values of these two fields determine the rate of your throttle, for example `refill_amount` 5 and `refill_time` 1 essentially means a rate of 5 requests per second.
+
+`max_tokens`: Determines the maximum "burst". For example of you have throttle that sets the rate to 5 requests per second but affected party only uses say 2 requests in a given second you can use the `max_tokens` field to allow the unused capaacity to carry over upto the number specified as a value of this field. So if it's value was 50, any unused capacity would carry over upto a maximum of 50 and user could potentially make 50 requests per second by saving up enough capacity from previous time units. If you don't want to allow any bursts, just set the value of `max_tokens` to be the same as `refill_amount`.
+
+`each_unique`: Optional, this creates a dynamic throttle. For example:
+
+```
+    {
+      "rule_id": "test-eachUnique-throttle",
+      "condition": {
+        "and": [
+          {"eq": {"request.header.host": "www.example.com"}}
+        ]
+      },
+      "action": {
+        "type": "throttle",
+        "max_tokens": 5,
+        "refill_amount": 5,
+        "refill_time": 1,
+        "each_unique": "request.clientIp"
+      }
+    }
+```
+
+this allows 5 requests per second for each request with the `host` header set to `www.example.com` for each unique IP Address.
 
 ## Introspectable request fields
 
