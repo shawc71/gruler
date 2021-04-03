@@ -143,7 +143,13 @@ Rate limits request, once the rate limit is exceeded all requests are rejected w
 
 will limit requests from ip `7.7.7.7` to 5 requests per second bursting upto 50.
 
-TODO: Explain throttle config
+Throttle configuration requires the following:
+
+`refill_amount`: Think of this as the number of requests you want to allow in a given unit of time
+
+`refill_time`: The time unit that applies to refill amount.
+
+Together the values of these two fields determine the rate of your throttle, for example `refill_amount` 5 and `refill_time` 1 essentially means a rate of 5 requests per second.
 
 ## Introspectable request fields
 
