@@ -2,6 +2,7 @@ syntax = "proto3";
 package proto;
 
 option go_package = "gruler/pkg/proto";
+option java_package = "com.proto.gruler";
 
 message Response {
   int64 executionTime = 1;
