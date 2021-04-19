@@ -45,7 +45,7 @@ request is a GET, OPTIONS or PATCH request.
 For a list of all available `request_field`s. See [Introspectable Request fields](#introspectable-request-fields)
 
 #### and
-This condition is written as `{"or": [condition-a, condition-b, condition-c ...]"}`
+This condition is written as `{"and": [condition-a, condition-b, condition-c ...]"}`
 
 This condition is used when you want the condition to be true if a set of conditions is true. This is similar to `&&` in
 programming languages.
