@@ -1,3 +1,4 @@
+https://github.com/shawc71/gruler/actions/workflows/go.yml/badge.svg
 # gruler
 
 Gruler is a [Rules Engine](https://martinfowler.com/bliki/RulesEngine.html) for defining actions on HTTP requests. It runs as a process listening in on a unix domain socket. 
