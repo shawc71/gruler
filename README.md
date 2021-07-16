@@ -45,6 +45,8 @@ request is a GET, OPTIONS or PATCH request.
 
 For a list of all available `request_field`s. See [Introspectable Request fields](#introspectable-request-fields)
 
+The supported non-terminal conditions are:
+
 #### and
 This condition is written as `{"and": [condition-a, condition-b, condition-c ...]"}`
 
