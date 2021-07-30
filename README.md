@@ -23,14 +23,6 @@ Terminal conditions do not contain any nested conditions. Non-terminal condition
 
 The supported terminal conditions are:
 
-#### eq
-
-This condition is written as `"{eq": {"request_field": "request_field_value"}}`
-
-The `request_field` is the property of the request to examine, if the runtime value of the `request_field` 
-equals to the specified `request_field_value` then the condition evaluates to `true`. 
-
-For example `{"eq": {"request.method": "GET"}}` -- this condition will evaluate to true if the request is a GET request.
 
 For a list of all available `request_field`s. See [Introspectable Request fields](#introspectable-request-fields)
 
