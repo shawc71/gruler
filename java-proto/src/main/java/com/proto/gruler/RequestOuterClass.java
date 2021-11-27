@@ -20,12 +20,10 @@ public final class RequestOuterClass {
 
     /**
      * <code>.proto.HttpRequest httpRequest = 1;</code>
-     * @return Whether the httpRequest field is set.
      */
     boolean hasHttpRequest();
     /**
      * <code>.proto.HttpRequest httpRequest = 1;</code>
-     * @return The httpRequest.
      */
     com.proto.gruler.RequestOuterClass.HttpRequest getHttpRequest();
     /**
@@ -36,7 +34,7 @@ public final class RequestOuterClass {
   /**
    * Protobuf type {@code proto.Request}
    */
-  public static final class Request extends
+  public  static final class Request extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:proto.Request)
       RequestOrBuilder {
@@ -46,13 +44,6 @@ public final class RequestOuterClass {
       super(builder);
     }
     private Request() {
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Request();
     }
 
     @java.lang.Override
@@ -68,6 +59,7 @@ public final class RequestOuterClass {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -92,7 +84,7 @@ public final class RequestOuterClass {
               break;
             }
             default: {
-              if (!parseUnknownField(
+              if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -127,24 +119,19 @@ public final class RequestOuterClass {
     private com.proto.gruler.RequestOuterClass.HttpRequest httpRequest_;
     /**
      * <code>.proto.HttpRequest httpRequest = 1;</code>
-     * @return Whether the httpRequest field is set.
      */
-    @java.lang.Override
     public boolean hasHttpRequest() {
       return httpRequest_ != null;
     }
     /**
      * <code>.proto.HttpRequest httpRequest = 1;</code>
-     * @return The httpRequest.
      */
-    @java.lang.Override
     public com.proto.gruler.RequestOuterClass.HttpRequest getHttpRequest() {
       return httpRequest_ == null ? com.proto.gruler.RequestOuterClass.HttpRequest.getDefaultInstance() : httpRequest_;
     }
     /**
      * <code>.proto.HttpRequest httpRequest = 1;</code>
      */
-    @java.lang.Override
     public com.proto.gruler.RequestOuterClass.HttpRequestOrBuilder getHttpRequestOrBuilder() {
       return getHttpRequest();
     }
@@ -194,13 +181,14 @@ public final class RequestOuterClass {
       }
       com.proto.gruler.RequestOuterClass.Request other = (com.proto.gruler.RequestOuterClass.Request) obj;
 
-      if (hasHttpRequest() != other.hasHttpRequest()) return false;
+      boolean result = true;
+      result = result && (hasHttpRequest() == other.hasHttpRequest());
       if (hasHttpRequest()) {
-        if (!getHttpRequest()
-            .equals(other.getHttpRequest())) return false;
+        result = result && getHttpRequest()
+            .equals(other.getHttpRequest());
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -390,35 +378,35 @@ public final class RequestOuterClass {
 
       @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -464,19 +452,17 @@ public final class RequestOuterClass {
         return this;
       }
 
-      private com.proto.gruler.RequestOuterClass.HttpRequest httpRequest_;
+      private com.proto.gruler.RequestOuterClass.HttpRequest httpRequest_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.proto.gruler.RequestOuterClass.HttpRequest, com.proto.gruler.RequestOuterClass.HttpRequest.Builder, com.proto.gruler.RequestOuterClass.HttpRequestOrBuilder> httpRequestBuilder_;
       /**
        * <code>.proto.HttpRequest httpRequest = 1;</code>
-       * @return Whether the httpRequest field is set.
        */
       public boolean hasHttpRequest() {
         return httpRequestBuilder_ != null || httpRequest_ != null;
       }
       /**
        * <code>.proto.HttpRequest httpRequest = 1;</code>
-       * @return The httpRequest.
        */
       public com.proto.gruler.RequestOuterClass.HttpRequest getHttpRequest() {
         if (httpRequestBuilder_ == null) {
@@ -585,7 +571,7 @@ public final class RequestOuterClass {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
       @java.lang.Override
@@ -641,48 +627,40 @@ public final class RequestOuterClass {
 
     /**
      * <code>string method = 1;</code>
-     * @return The method.
      */
     java.lang.String getMethod();
     /**
      * <code>string method = 1;</code>
-     * @return The bytes for method.
      */
     com.google.protobuf.ByteString
         getMethodBytes();
 
     /**
      * <code>string requestUri = 2;</code>
-     * @return The requestUri.
      */
     java.lang.String getRequestUri();
     /**
      * <code>string requestUri = 2;</code>
-     * @return The bytes for requestUri.
      */
     com.google.protobuf.ByteString
         getRequestUriBytes();
 
     /**
      * <code>string httpVersion = 3;</code>
-     * @return The httpVersion.
      */
     java.lang.String getHttpVersion();
     /**
      * <code>string httpVersion = 3;</code>
-     * @return The bytes for httpVersion.
      */
     com.google.protobuf.ByteString
         getHttpVersionBytes();
 
     /**
      * <code>string clientIp = 4;</code>
-     * @return The clientIp.
      */
     java.lang.String getClientIp();
     /**
      * <code>string clientIp = 4;</code>
-     * @return The bytes for clientIp.
      */
     com.google.protobuf.ByteString
         getClientIpBytes();
@@ -724,7 +702,7 @@ public final class RequestOuterClass {
   /**
    * Protobuf type {@code proto.HttpRequest}
    */
-  public static final class HttpRequest extends
+  public  static final class HttpRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:proto.HttpRequest)
       HttpRequestOrBuilder {
@@ -738,13 +716,6 @@ public final class RequestOuterClass {
       requestUri_ = "";
       httpVersion_ = "";
       clientIp_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new HttpRequest();
     }
 
     @java.lang.Override
@@ -796,10 +767,10 @@ public final class RequestOuterClass {
               break;
             }
             case 42: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
                 headers_ = com.google.protobuf.MapField.newMapField(
                     HeadersDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000010;
               }
               com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
               headers__ = input.readMessage(
@@ -809,7 +780,7 @@ public final class RequestOuterClass {
               break;
             }
             default: {
-              if (!parseUnknownField(
+              if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -852,13 +823,12 @@ public final class RequestOuterClass {
               com.proto.gruler.RequestOuterClass.HttpRequest.class, com.proto.gruler.RequestOuterClass.HttpRequest.Builder.class);
     }
 
+    private int bitField0_;
     public static final int METHOD_FIELD_NUMBER = 1;
     private volatile java.lang.Object method_;
     /**
      * <code>string method = 1;</code>
-     * @return The method.
      */
-    @java.lang.Override
     public java.lang.String getMethod() {
       java.lang.Object ref = method_;
       if (ref instanceof java.lang.String) {
@@ -873,9 +843,7 @@ public final class RequestOuterClass {
     }
     /**
      * <code>string method = 1;</code>
-     * @return The bytes for method.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getMethodBytes() {
       java.lang.Object ref = method_;
@@ -894,9 +862,7 @@ public final class RequestOuterClass {
     private volatile java.lang.Object requestUri_;
     /**
      * <code>string requestUri = 2;</code>
-     * @return The requestUri.
      */
-    @java.lang.Override
     public java.lang.String getRequestUri() {
       java.lang.Object ref = requestUri_;
       if (ref instanceof java.lang.String) {
@@ -911,9 +877,7 @@ public final class RequestOuterClass {
     }
     /**
      * <code>string requestUri = 2;</code>
-     * @return The bytes for requestUri.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getRequestUriBytes() {
       java.lang.Object ref = requestUri_;
@@ -932,9 +896,7 @@ public final class RequestOuterClass {
     private volatile java.lang.Object httpVersion_;
     /**
      * <code>string httpVersion = 3;</code>
-     * @return The httpVersion.
      */
-    @java.lang.Override
     public java.lang.String getHttpVersion() {
       java.lang.Object ref = httpVersion_;
       if (ref instanceof java.lang.String) {
@@ -949,9 +911,7 @@ public final class RequestOuterClass {
     }
     /**
      * <code>string httpVersion = 3;</code>
-     * @return The bytes for httpVersion.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getHttpVersionBytes() {
       java.lang.Object ref = httpVersion_;
@@ -970,9 +930,7 @@ public final class RequestOuterClass {
     private volatile java.lang.Object clientIp_;
     /**
      * <code>string clientIp = 4;</code>
-     * @return The clientIp.
      */
-    @java.lang.Override
     public java.lang.String getClientIp() {
       java.lang.Object ref = clientIp_;
       if (ref instanceof java.lang.String) {
@@ -987,9 +945,7 @@ public final class RequestOuterClass {
     }
     /**
      * <code>string clientIp = 4;</code>
-     * @return The bytes for clientIp.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getClientIpBytes() {
       java.lang.Object ref = clientIp_;
@@ -1034,7 +990,6 @@ public final class RequestOuterClass {
      * <code>map&lt;string, string&gt; headers = 5;</code>
      */
 
-    @java.lang.Override
     public boolean containsHeaders(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
@@ -1043,7 +998,6 @@ public final class RequestOuterClass {
     /**
      * Use {@link #getHeadersMap()} instead.
      */
-    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, java.lang.String> getHeaders() {
       return getHeadersMap();
@@ -1051,7 +1005,6 @@ public final class RequestOuterClass {
     /**
      * <code>map&lt;string, string&gt; headers = 5;</code>
      */
-    @java.lang.Override
 
     public java.util.Map<java.lang.String, java.lang.String> getHeadersMap() {
       return internalGetHeaders().getMap();
@@ -1059,7 +1012,6 @@ public final class RequestOuterClass {
     /**
      * <code>map&lt;string, string&gt; headers = 5;</code>
      */
-    @java.lang.Override
 
     public java.lang.String getHeadersOrDefault(
         java.lang.String key,
@@ -1072,7 +1024,6 @@ public final class RequestOuterClass {
     /**
      * <code>map&lt;string, string&gt; headers = 5;</code>
      */
-    @java.lang.Override
 
     public java.lang.String getHeadersOrThrow(
         java.lang.String key) {
@@ -1163,18 +1114,19 @@ public final class RequestOuterClass {
       }
       com.proto.gruler.RequestOuterClass.HttpRequest other = (com.proto.gruler.RequestOuterClass.HttpRequest) obj;
 
-      if (!getMethod()
-          .equals(other.getMethod())) return false;
-      if (!getRequestUri()
-          .equals(other.getRequestUri())) return false;
-      if (!getHttpVersion()
-          .equals(other.getHttpVersion())) return false;
-      if (!getClientIp()
-          .equals(other.getClientIp())) return false;
-      if (!internalGetHeaders().equals(
-          other.internalGetHeaders())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && getMethod()
+          .equals(other.getMethod());
+      result = result && getRequestUri()
+          .equals(other.getRequestUri());
+      result = result && getHttpVersion()
+          .equals(other.getHttpVersion());
+      result = result && getClientIp()
+          .equals(other.getClientIp());
+      result = result && internalGetHeaders().equals(
+          other.internalGetHeaders());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
     }
 
     @java.lang.Override
@@ -1387,47 +1339,49 @@ public final class RequestOuterClass {
       public com.proto.gruler.RequestOuterClass.HttpRequest buildPartial() {
         com.proto.gruler.RequestOuterClass.HttpRequest result = new com.proto.gruler.RequestOuterClass.HttpRequest(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.method_ = method_;
         result.requestUri_ = requestUri_;
         result.httpVersion_ = httpVersion_;
         result.clientIp_ = clientIp_;
         result.headers_ = internalGetHeaders();
         result.headers_.makeImmutable();
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1492,7 +1446,6 @@ public final class RequestOuterClass {
       private java.lang.Object method_ = "";
       /**
        * <code>string method = 1;</code>
-       * @return The method.
        */
       public java.lang.String getMethod() {
         java.lang.Object ref = method_;
@@ -1508,7 +1461,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string method = 1;</code>
-       * @return The bytes for method.
        */
       public com.google.protobuf.ByteString
           getMethodBytes() {
@@ -1525,8 +1477,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string method = 1;</code>
-       * @param value The method to set.
-       * @return This builder for chaining.
        */
       public Builder setMethod(
           java.lang.String value) {
@@ -1540,7 +1490,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string method = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearMethod() {
         
@@ -1550,8 +1499,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string method = 1;</code>
-       * @param value The bytes for method to set.
-       * @return This builder for chaining.
        */
       public Builder setMethodBytes(
           com.google.protobuf.ByteString value) {
@@ -1568,7 +1515,6 @@ public final class RequestOuterClass {
       private java.lang.Object requestUri_ = "";
       /**
        * <code>string requestUri = 2;</code>
-       * @return The requestUri.
        */
       public java.lang.String getRequestUri() {
         java.lang.Object ref = requestUri_;
@@ -1584,7 +1530,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string requestUri = 2;</code>
-       * @return The bytes for requestUri.
        */
       public com.google.protobuf.ByteString
           getRequestUriBytes() {
@@ -1601,8 +1546,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string requestUri = 2;</code>
-       * @param value The requestUri to set.
-       * @return This builder for chaining.
        */
       public Builder setRequestUri(
           java.lang.String value) {
@@ -1616,7 +1559,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string requestUri = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearRequestUri() {
         
@@ -1626,8 +1568,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string requestUri = 2;</code>
-       * @param value The bytes for requestUri to set.
-       * @return This builder for chaining.
        */
       public Builder setRequestUriBytes(
           com.google.protobuf.ByteString value) {
@@ -1644,7 +1584,6 @@ public final class RequestOuterClass {
       private java.lang.Object httpVersion_ = "";
       /**
        * <code>string httpVersion = 3;</code>
-       * @return The httpVersion.
        */
       public java.lang.String getHttpVersion() {
         java.lang.Object ref = httpVersion_;
@@ -1660,7 +1599,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string httpVersion = 3;</code>
-       * @return The bytes for httpVersion.
        */
       public com.google.protobuf.ByteString
           getHttpVersionBytes() {
@@ -1677,8 +1615,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string httpVersion = 3;</code>
-       * @param value The httpVersion to set.
-       * @return This builder for chaining.
        */
       public Builder setHttpVersion(
           java.lang.String value) {
@@ -1692,7 +1628,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string httpVersion = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearHttpVersion() {
         
@@ -1702,8 +1637,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string httpVersion = 3;</code>
-       * @param value The bytes for httpVersion to set.
-       * @return This builder for chaining.
        */
       public Builder setHttpVersionBytes(
           com.google.protobuf.ByteString value) {
@@ -1720,7 +1653,6 @@ public final class RequestOuterClass {
       private java.lang.Object clientIp_ = "";
       /**
        * <code>string clientIp = 4;</code>
-       * @return The clientIp.
        */
       public java.lang.String getClientIp() {
         java.lang.Object ref = clientIp_;
@@ -1736,7 +1668,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string clientIp = 4;</code>
-       * @return The bytes for clientIp.
        */
       public com.google.protobuf.ByteString
           getClientIpBytes() {
@@ -1753,8 +1684,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string clientIp = 4;</code>
-       * @param value The clientIp to set.
-       * @return This builder for chaining.
        */
       public Builder setClientIp(
           java.lang.String value) {
@@ -1768,7 +1697,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string clientIp = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearClientIp() {
         
@@ -1778,8 +1706,6 @@ public final class RequestOuterClass {
       }
       /**
        * <code>string clientIp = 4;</code>
-       * @param value The bytes for clientIp to set.
-       * @return This builder for chaining.
        */
       public Builder setClientIpBytes(
           com.google.protobuf.ByteString value) {
@@ -1823,7 +1749,6 @@ public final class RequestOuterClass {
        * <code>map&lt;string, string&gt; headers = 5;</code>
        */
 
-      @java.lang.Override
       public boolean containsHeaders(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
@@ -1832,7 +1757,6 @@ public final class RequestOuterClass {
       /**
        * Use {@link #getHeadersMap()} instead.
        */
-      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, java.lang.String> getHeaders() {
         return getHeadersMap();
@@ -1840,7 +1764,6 @@ public final class RequestOuterClass {
       /**
        * <code>map&lt;string, string&gt; headers = 5;</code>
        */
-      @java.lang.Override
 
       public java.util.Map<java.lang.String, java.lang.String> getHeadersMap() {
         return internalGetHeaders().getMap();
@@ -1848,7 +1771,6 @@ public final class RequestOuterClass {
       /**
        * <code>map&lt;string, string&gt; headers = 5;</code>
        */
-      @java.lang.Override
 
       public java.lang.String getHeadersOrDefault(
           java.lang.String key,
@@ -1861,7 +1783,6 @@ public final class RequestOuterClass {
       /**
        * <code>map&lt;string, string&gt; headers = 5;</code>
        */
-      @java.lang.Override
 
       public java.lang.String getHeadersOrThrow(
           java.lang.String key) {
@@ -1923,7 +1844,7 @@ public final class RequestOuterClass {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
       @java.lang.Override
@@ -2006,10 +1927,18 @@ public final class RequestOuterClass {
       "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B$\n\020com" +
       ".proto.grulerZ\020gruler/pkg/protob\006proto3"
     };
-    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
+    com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        });
+        }, assigner);
     internal_static_proto_Request_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_proto_Request_fieldAccessorTable = new
