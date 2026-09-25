@@ -226,5 +226,3 @@ Update your PATH so that the protoc compiler can find the plugins:
 
 
 
-
-
